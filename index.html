@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello DOM & Events</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+	<style>
+
+		.text-gray {
+			color: #bababa;
+		}
+
+	</style>
+
+  </head>
+  <body>
+
+
+	<div class="container mt-5 mb-5">
+		<h1>Адресная книга</h1>
+		<div class="row">
+
+		</div>
+		<div class="row border-bottom pb-2 mt-4">
+			<div class="col-3">
+				<strong>Имя</strong>
+				<i class="fas fa-2x fa-sort-amount-up-alt text-gray"></i>
+			</div>
+			<div class="col-3"><strong>Телефон</strong></div>
+			<div class="col-3"><strong>Адрес</strong></div>
+		</div>
+
+		<div class="cards">
+
+			<!-- One Card -->
+
+			<!-- /One Card -->
+
+		</div>
+
+	</div>
+
+  <!--Script-->
+
+  <script>
+    document.addEventListener('DOMContentLoaded',async function(){
+      let url  = "https://randomuser.me/api/?seed=speciallist&results=25";
+
+      let massInfo     = await fetch(url);
+          massInfo     = await massInfo.json();
+          massInfo     = massInfo.results;
+
+          massInfo = massInfo.map(item =>({
+                name: item.id.name,
+              phone : item.phone,
+            country : item.location.country,
+               city : item.location.city
+          }));
+
+      let html = massInfo.map(danni =>`
+        <div class="row border-bottom pb-2 mt-2">
+          <div class="col-3">${danni.name}</div>
+          <div class="col-3">${danni.phone}</div>
+          <div class="col-3">${danni.country}, ${danni.city}</div>
+        </div>
+        `).join('');
+
+      let mass_person = document.querySelector('.cards');
+          mass_person.insertAdjacentHTML('afterbegin',html);
+          console.log(massInfo);
+
+      // Correct image
+
+      let imageSort = document.querySelector('i');
+
+      function i_classEvent(){
+
+              if(imageSort.classList.contains("text-gray")){
+                imageSort.classList.remove('text-gray');
+                imageSort.classList.remove('fa-sort-amount-up-alt');
+                imageSort.classList.add('fa-sort-amount-down-alt');
+              }else{
+                imageSort.classList.add('text-gray');
+                imageSort.classList.add('fa-sort-amount-up-alt');
+                imageSort.classList.remove('fa-sort-amount-down-alt');
+              }
+
+          }
+      /*function sortirovka(massInfo){
+        massInfo.sort();
+        return massInfo;
+      }*/
+imageSort.addEventListener('click', i_classEvent);
+imageSort.addEventListener('click', massInfo.sort());
+
+        /*  imageSort.addEventListener('click', function (event) {
+            massInfo.sort(function (a,b){
+                if (a.name > b.name) {
+                  return 1;
+                }
+                if (a.name < b.name) {
+                  return -1;
+                }
+                return 0;
+            });
+        });*/
+
+
+        /*imageSort.addEventListener('click', {
+          handleEvent: function (event) {
+            massInfo.sort(function (a,b){
+                if (a.name > b.name) {
+                  return 1;
+                }
+                if (a.name < b.name) {
+                  return -1;
+                }
+                return 0;
+            });
+          }
+        });*/
+
+
+      });
+
+  </script>
+  </body>
+</html>
