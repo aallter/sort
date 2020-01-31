@@ -60,70 +60,49 @@
             country : item.location.country,
                city : item.location.city
           }));
+      function massView(){
+            let html = massInfo.map(danni =>`
+              <div class="row border-bottom pb-2 mt-2">
+                <div class="col-3">${danni.name}</div>
+                <div class="col-3">${danni.phone}</div>
+                <div class="col-3">${danni.country}, ${danni.city}</div>
+              </div>
+              `).join('');
 
-      let html = massInfo.map(danni =>`
-        <div class="row border-bottom pb-2 mt-2">
-          <div class="col-3">${danni.name}</div>
-          <div class="col-3">${danni.phone}</div>
-          <div class="col-3">${danni.country}, ${danni.city}</div>
-        </div>
-        `).join('');
-
-      let mass_person = document.querySelector('.cards');
-          mass_person.insertAdjacentHTML('afterbegin',html);
-          console.log(massInfo);
-
+            let mass_person = document.querySelector('.cards');
+                mass_person.insertAdjacentHTML('afterbegin',html);
+                console.log(massInfo);
+      }
+      massView();
       // Correct image
 
       let imageSort = document.querySelector('i');
 
       function i_classEvent(){
 
-              if(imageSort.classList.contains("text-gray")){
-                imageSort.classList.remove('text-gray');
-                imageSort.classList.remove('fa-sort-amount-up-alt');
-                imageSort.classList.add('fa-sort-amount-down-alt');
-              }else{
-                imageSort.classList.add('text-gray');
-                imageSort.classList.add('fa-sort-amount-up-alt');
-                imageSort.classList.remove('fa-sort-amount-down-alt');
+                imageSort.classList.toggle('text-gray');
+                imageSort.classList.toggle('text-black');
+                imageSort.classList.toggle('fa-sort-amount-up-alt');
+                imageSort.classList.toggle('fa-sort-amount-down-alt');
+
+              massInfo.sort(function (a,b){
+                  if (a.name > b.name) {
+                    return 1;
+                  }
+                  if (a.name < b.name) {
+                    return -1;
+                  }else{
+                    return 0;
+                  }
+
+              });
+              if (imageSort.classList.contains('fa-sort-amount-down-alt')){
+                massInfo.reverse();
               }
-
+              massView();
           }
-      /*function sortirovka(massInfo){
-        massInfo.sort();
-        return massInfo;
-      }*/
-imageSort.addEventListener('click', i_classEvent);
-imageSort.addEventListener('click', massInfo.sort());
-
-        /*  imageSort.addEventListener('click', function (event) {
-            massInfo.sort(function (a,b){
-                if (a.name > b.name) {
-                  return 1;
-                }
-                if (a.name < b.name) {
-                  return -1;
-                }
-                return 0;
-            });
-        });*/
-
-
-        /*imageSort.addEventListener('click', {
-          handleEvent: function (event) {
-            massInfo.sort(function (a,b){
-                if (a.name > b.name) {
-                  return 1;
-                }
-                if (a.name < b.name) {
-                  return -1;
-                }
-                return 0;
-            });
-          }
-        });*/
-
+          
+      imageSort.addEventListener('click', i_classEvent);
 
       });
 
