@@ -55,7 +55,7 @@
           massInfo     = massInfo.results;
 
           massInfo = massInfo.map(item =>({
-                name: item.id.name,
+                name: item.name.first,
               phone : item.phone,
             country : item.location.country,
                city : item.location.city
@@ -79,7 +79,10 @@
       let imageSort = document.querySelector('i');
 
       function i_classEvent(){
-
+                  let dontNeedThis = document.querySelector('.cards');
+                  while (dontNeedThis.firstChild) {
+                  dontNeedThis.removeChild(dontNeedThis.firstChild);
+                  };
                 imageSort.classList.toggle('text-gray');
                 imageSort.classList.toggle('text-black');
                 imageSort.classList.toggle('fa-sort-amount-up-alt');
@@ -101,7 +104,7 @@
               }
               massView();
           }
-          
+
       imageSort.addEventListener('click', i_classEvent);
 
       });
